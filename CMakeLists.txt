@@ -6,6 +6,7 @@ add_executable(raytracer "")
 target_sources(raytracer PUBLIC
     src/main.cpp
     src/utils/point.cpp
+    src/utils/color.cpp
     src/geometry/vector.cpp
 )
 
