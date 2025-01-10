@@ -8,6 +8,7 @@ target_sources(raytracer PUBLIC
     src/utils/point.cpp
     src/utils/color.cpp
     src/geometry/vector.cpp
+    src/geometry/ray.cpp
 )
 
 target_include_directories(raytracer PRIVATE "includes")
