@@ -10,6 +10,7 @@ target_sources(raytracer PUBLIC
     src/geometry/vector.cpp
     src/geometry/ray.cpp
     src/objects/sphere.cpp
+    src/objects/world.cpp
 )
 
 target_include_directories(raytracer PRIVATE "includes")
