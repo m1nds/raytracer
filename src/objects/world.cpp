@@ -14,13 +14,13 @@ void World::clear() {
     this->_objects.clear();
 }
 
-bool World::hit_objects(const Ray& r, double ray_tmin, double ray_tmax, HitRecord& rec) {
+bool World::hit_objects(const Ray& r, Interval in, HitRecord& rec) const {
     HitRecord temp_rec;
     bool hit_anything = false;
-    auto closest_so_far = ray_tmax;
+    auto closest_so_far = in.max();
 
     for (const auto& object : this->_objects) {
-        if (object->hit(r, ray_tmin, closest_so_far, temp_rec)) {
+        if (object->hit(r, Interval(in.min(), closest_so_far), temp_rec)) {
             hit_anything = true;
             closest_so_far = temp_rec.t;
             rec = temp_rec;

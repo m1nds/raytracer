@@ -1,31 +1,16 @@
-#include <iostream>
+#include <objects/sphere.hpp>
+#include <objects/world.hpp>
 
-#include <utils/color.hpp>
-#include <utils/point.hpp>
-#include <geometry/vector.hpp>
+#include <utils/camera.hpp>
+
+#include <memory>
 
 int main() {
+    World world;
 
-    // Image
+    world.add(std::make_unique<Sphere>(Vector3(0,0,-1), 0.5));
+    world.add(std::make_unique<Sphere>(Vector3(0,-100.5,-1), 100));
 
-    int image_width = 256;
-    int image_height = 256;
-
-    // Render
-
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-
-    for (int j = 0; j < image_height; j++) {
-        for (int i = 0; i < image_width; i++) {
-            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
-
-            Point3 p = Point3(double(i) / (image_width-1),
-                              double(j) / (image_height-1),
-                              0);
-
-            write_color(std::cout, p);
-        }
-    }
-
-    std::clog << "\rDone.                 \n";
+    Camera cam = Camera(400, (16.0 / 9.0));
+    cam.render(world);
 }

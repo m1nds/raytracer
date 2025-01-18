@@ -12,7 +12,7 @@ class World {
         World();
         void add(std::unique_ptr<Hittable> object);
         void clear();
-        bool hit_objects(const Ray& r, double ray_tmin, double ray_tmax, HitRecord& rec);
+        bool hit_objects(const Ray& r, Interval in, HitRecord& rec) const;
 
     private:
         std::vector<std::unique_ptr<Hittable>> _objects;
