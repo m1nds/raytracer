@@ -29,3 +29,8 @@ bool Interval::surrounds(double x) const {
     return this->_min < x && x < this->_max;
 }
 
+double Interval::clamp(double x) const {
+    if (x < this->_min) return this->_min;
+    if (x > this->_max) return this->_max;
+    return x;
+}

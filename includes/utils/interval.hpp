@@ -10,6 +10,7 @@ class Interval {
         double max();
 
         double size() const;
+        double clamp(double x) const;
         bool contains(double x) const;
         bool surrounds(double x) const;
 
