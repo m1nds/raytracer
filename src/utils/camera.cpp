@@ -60,11 +60,12 @@ Vector3 Camera::ray_color(const Ray& r, const World& world, int depth) const {
     if (depth <= 0) {
         return Vector3(0, 0, 0);
     }
+
     HitRecord rec;
 
-    if (world.hit_objects(r, Interval(0, INF), rec)) {
-        Vector3 direction = random_on_hemisphere(rec.normal);
-        return 0.5 * ray_color(Ray(rec.p, direction), world, depth - 1);
+    if (world.hit_objects(r, Interval(0.001, INF), rec)) {
+        Vector3 direction = rec.normal + random_unit_vector();
+        return 0.1 * ray_color(Ray(rec.p, direction), world, depth - 1);
     }
 
     Vector3 unit_direction = unit_vector(r.direction());
