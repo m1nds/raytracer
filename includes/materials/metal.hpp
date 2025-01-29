@@ -10,10 +10,11 @@
 
 class Metal : public Material {
     public:
-        Metal(const Vector3& albdeo);
+        Metal(const Vector3& albdeo, double fuzz);
         bool scatter(const Ray& r_in, const HitRecord& rec, Vector3& attenuation, Ray& scattered) const override;
     private:
         Vector3 _albedo;
+        double _fuzz;
 };
 
 #endif
