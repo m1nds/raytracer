@@ -6,10 +6,15 @@
 #include <geometry/vector.hpp>
 #include <geometry/ray.hpp>
 
+#include <materials/material.hpp>
+
+#include <memory>
+
 class HitRecord {
     public:
         Vector3 p;
         Vector3 normal;
+        std::shared_ptr<Material> material;
         double t;
         bool front_face;
 
@@ -21,8 +26,12 @@ class HitRecord {
 
 class Hittable {
     public:
+        Hittable(std::shared_ptr<Material> material) : _material(material) {}
         virtual ~Hittable() = default;
         virtual bool hit(const Ray& r, Interval in, HitRecord& rec) const = 0;
+    protected:
+        std::shared_ptr<Material> _material;
+
 };
 
 #endif

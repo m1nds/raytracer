@@ -64,8 +64,13 @@ Vector3 Camera::ray_color(const Ray& r, const World& world, int depth) const {
     HitRecord rec;
 
     if (world.hit_objects(r, Interval(0.001, INF), rec)) {
-        Vector3 direction = rec.normal + random_unit_vector();
-        return 0.1 * ray_color(Ray(rec.p, direction), world, depth - 1);
+        Ray scattered;
+        Vector3 attenuation;
+        if (rec.material->scatter(r, rec, attenuation, scattered)) {
+            return attenuation * ray_color(scattered, world, depth - 1);
+        }
+
+        return Vector3(0, 0, 0);
     }
 
     Vector3 unit_direction = unit_vector(r.direction());

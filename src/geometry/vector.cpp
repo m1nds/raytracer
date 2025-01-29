@@ -35,6 +35,11 @@ double Vector3::length_squared() const {
     return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
 }
 
+bool Vector3::near_zero() const {
+    auto s = 1e-8;
+    return (std::fabs(e[0]) < s) && (std::fabs(e[1]) < s) && (std::fabs(e[2]) < s);
+}
+
 Vector3 Vector3::random() {
     return Vector3(random_double(), random_double(), random_double());
 }
@@ -98,4 +103,8 @@ Vector3 random_on_hemisphere(const Vector3& v) {
     }
 
     return -on_unit_sphere;
+}
+
+Vector3 reflect(const Vector3& v, const Vector3& n) {
+    return v - 2 * dot(v, n) * n;
 }

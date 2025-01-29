@@ -7,9 +7,11 @@
 #include <geometry/vector.hpp>
 #include <geometry/ray.hpp>
 
+#include <materials/material.hpp>
+
 class Sphere: public Hittable {
   public:
-    Sphere(const Vector3& center, double radius);
+    Sphere(const Vector3& center, double radius, std::shared_ptr<Material> material);
     bool hit(const Ray& r, Interval in, HitRecord& rec) const override;
 
   private:

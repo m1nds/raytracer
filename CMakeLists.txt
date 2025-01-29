@@ -13,6 +13,8 @@ target_sources(raytracer PUBLIC
     src/geometry/ray.cpp
     src/objects/sphere.cpp
     src/objects/world.cpp
+    src/materials/lambertian.cpp
+    src/materials/metal.cpp
 )
 
 target_include_directories(raytracer PRIVATE "includes")

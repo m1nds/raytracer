@@ -1,8 +1,10 @@
 #include <geometry/vector.hpp>
 #include <geometry/ray.hpp>
+#include <objects/hittable.hpp>
 #include <objects/sphere.hpp>
+#include <materials/material.hpp>
 
-Sphere::Sphere(const Vector3& center, double radius) : _center(center), _radius(std::fmax(0,radius)) {}
+Sphere::Sphere(const Vector3& center, double radius, std::shared_ptr<Material> material) : Hittable(material), _center(center), _radius(std::fmax(0,radius)) {}
 
 bool Sphere::hit(const Ray& r, Interval in, HitRecord& rec) const {
     Vector3 oc = this->_center - r.origin();
@@ -31,6 +33,7 @@ bool Sphere::hit(const Ray& r, Interval in, HitRecord& rec) const {
 
     Vector3 outward_normal = (rec.p - this->_center) / this->_radius;
     rec.set_face_normal(r, outward_normal);
+    rec.material = this->_material;
 
     return true;
 }
