@@ -6,13 +6,14 @@
 #include <geometry/ray.hpp>
 #include <geometry/vector.hpp>
 
-Camera::Camera() : Camera::Camera(100, 1.0, 10) {}
+Camera::Camera() : Camera::Camera(100, 1.0, 10, 10) {}
 
-Camera::Camera(int width, double aspect_ratio, int samples_per_pixel) {
+Camera::Camera(int width, double aspect_ratio, int samples_per_pixel, int max_depth) {
 
     this->_width = width;
     this->_aspect_ratio = aspect_ratio;
     this->_samples_per_pixel = samples_per_pixel;
+    this->_max_depth = max_depth;
 
     this->_height = int(this->_width / this->_aspect_ratio);
     this->_height = (this->_height < 1) ? 1 : this->_height;
@@ -55,11 +56,15 @@ Vector3 Camera::sample_square() const {
     return Vector3(random_double() - 0.5, random_double() - 0.5, 0);
 }
 
-Vector3 Camera::ray_color(const Ray& r, const World& world) const {
+Vector3 Camera::ray_color(const Ray& r, const World& world, int depth) const {
+    if (depth <= 0) {
+        return Vector3(0, 0, 0);
+    }
     HitRecord rec;
 
     if (world.hit_objects(r, Interval(0, INF), rec)) {
-        return 0.5 * (rec.normal + Vector3(1,1,1));
+        Vector3 direction = random_on_hemisphere(rec.normal);
+        return 0.5 * ray_color(Ray(rec.p, direction), world, depth - 1);
     }
 
     Vector3 unit_direction = unit_vector(r.direction());
@@ -78,7 +83,7 @@ void Camera::render(const World& world) {
                 Vector3 pixel_color(0,0,0);
                 for (int sample = 0; sample < this->_samples_per_pixel; sample++) {
                     Ray r = this->current_ray(i, j);
-                    pixel_color += this->ray_color(r, world);
+                    pixel_color += this->ray_color(r, world, this->_max_depth);
                 }
 
                 write_color(std::cout, pixel_samples_scale * pixel_color);

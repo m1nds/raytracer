@@ -8,17 +8,18 @@
 class Camera {
     public:
         Camera();
-        Camera(int width, double aspect_ratio, int samples_per_pixel);
+        Camera(int width, double aspect_ratio, int samples_per_pixel, int max_depth);
         void render(const World& world);
 
     private:
-        Vector3 ray_color(const Ray& r, const World& world) const;
+        Vector3 ray_color(const Ray& r, const World& world, int max_depth) const;
         Ray current_ray(int i, int j) const;
         Vector3 sample_square() const;
 
         double _aspect_ratio = 1.0;
         int    _width  = 100;
         int    _height  = 100;
+        int    _max_depth = 10;
         int    _samples_per_pixel;
 
         Vector3 _center;

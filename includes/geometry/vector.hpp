@@ -18,6 +18,8 @@ class Vector3 : public Point3 {
 
         double length() const;
         double length_squared() const;
+        static Vector3 random();
+        static Vector3 random(double min, double max);
 };
 
 
@@ -38,5 +40,7 @@ double dot(const Vector3& u, const Vector3& v);
 Vector3 cross(const Vector3& u, const Vector3& v);
 
 Vector3 unit_vector(const Vector3& v);
+Vector3 random_unit_vector();
+Vector3 random_on_hemisphere(const Vector3& v);
 
 #endif
